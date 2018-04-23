@@ -16,13 +16,13 @@ MongoClient.connect('mongodb://localhost:27017/Todoapp', (err, db) => {
 		console.log(JSON.stringify(result.ops, undefined, 2));
 	});
 */
-	/*db.collection('Users').insertOne({
+	db.collection('Users').insertOne({
 		name: 'Ivan',
 		age: 28,
 		location: 'Chile'
 	}, (err, result) => {
 		if(err) return console.log('Unable to connect to database', err);
 		console.log(JSON.stringify(result.ops, undefined, 2));
-	});*/
+	});
 	db.close();
 });

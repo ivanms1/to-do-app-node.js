@@ -12,9 +12,9 @@ MongoClient.connect('mongodb://localhost:27017/Todoapp', (err, db) => {
 		else console.log(err)
 	});*/
 
-	db.collection('Users').find({name: 'Eun Jung'}).toArray((err, docs) => {
+	db.collection('Users').find().toArray((err, docs) => {
 		if(err === null){
-			return console.log(docs)
+			return console.log(JSON.stringify(docs, undefined, 2))
 		}
 		else console.log(err)
 	});
