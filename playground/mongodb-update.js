@@ -5,8 +5,11 @@ MongoClient.connect('mongodb://localhost:27017/Todoapp', (err, db) => {
 	if(err) return console.log('Unable to connect to MongoDB server');
 	console.log('Connected to MongoDB server');
 
-	db.collection('Todos').deleteMany({text: 'Walk the dog'})
-	.then((res) => console.log(res.deletedCount))
+	db.collection('Users').findOneAndUpdate(
+		{ _id: ObjectId('5add8692e956b510e098849b') },
+		{ $inc: { age: 5 }, $set: { name: "Ivan" } },
+		{ returnOriginal:false })
+	.then((res) => console.log(res))
 
 	db.close();
 });
