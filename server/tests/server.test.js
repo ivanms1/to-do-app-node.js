@@ -13,7 +13,9 @@ const todos = [
 	},
 	{
 		_id: new ObjectId,
-		text: 'second test'
+		text: 'second test',
+		completed: true,
+		completedAt: 101010
 	}
 	];
 
@@ -151,4 +153,46 @@ describe('DELETE /todos/:id', () => {
 		.expect(400)
 		.end(done);
 	})
+});
+
+describe('PATCH /todos/:id', () => {
+	it('should update todo', (done) => {
+
+		let id = todos[0]._id.toHexString();
+		let data = { completed: true,
+					text: "updated test" };
+
+		request(app)
+		.patch(`/todos/${id}`)
+		.send(data)
+		.expect(200)
+		.expect((res) => {
+			Todo.findById(id)
+			.then((todo) => {
+				expect(todo.text).toBe(res.body.todo.text);
+				expect(todo.completedAt).toBeA('number');
+				done();
+			})
+		})
+		.catch((err) => done(err))
+
+	});
+
+	it('should clear completedAt when completed is false', (done) => {
+		let id = todos[1]._id.toHexString();
+
+		request(app)
+		.patch(`/todos/${id}`)
+		.send({ completed: false, text: "changed to false" })
+		.expect(200)
+		.expect((res) => {
+			Todo.findById(id)
+			.then((todo) => {
+				expect(todo.text).toBe(res.body.todo.text);
+				expect(todo.completedAt).toNotExist();
+				done();
+			})
+		})
+		.catch((err) => done(err));
+	});
 });
